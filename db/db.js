@@ -1,15 +1,15 @@
-const { Sequelize } = require('sequelize')
+const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  process.env.MYSQLDATABASE,
-  process.env.MYSQLUSER,
-  process.env.MYSQLPASSWORD,
+  process.env.NAME,
+  process.env.USER,
+  process.env.PASS,
   {
-    host: process.env.MYSQLHOST,
-    port: process.env.MYSQLPORT,
+    host: process.env.HOST,
+    port: process.env.PORT_SQL,
     dialect: 'mysql',
-    logging: false,
+    logging: false
   }
-)
+);
 
-module.exports = sequelize
+module.exports = sequelize;
