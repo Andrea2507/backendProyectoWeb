@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const sequelize = require('../config/db') 
+const sequelize = require('../config/db')
 
 exports.generarBackup = async (req, res) => {
   try {
