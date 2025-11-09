@@ -6,6 +6,6 @@ const ProductoFoto = db.define('ProductoFoto', {
   ProductoId: { type: DataTypes.INTEGER, allowNull: false },
   url: { type: DataTypes.STRING(300), allowNull: false },
   principal: { type: DataTypes.BOOLEAN, defaultValue: false }
-}, { tableName: 'productoFoto', timestamps: false })
+}, { tableName: 'productofoto', timestamps: false })
 
 module.exports = ProductoFoto
