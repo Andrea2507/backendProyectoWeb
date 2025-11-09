@@ -10,6 +10,6 @@ const Producto = db.define('Producto', {
   marca: { type: DataTypes.STRING(80) },
   CategoriaId: { type: DataTypes.INTEGER },
   activo: { type: DataTypes.BOOLEAN, defaultValue: true }
-}, { tableName: 'Producto', timestamps: false })
+}, { tableName: 'producto', timestamps: false })
 
 module.exports = Producto
