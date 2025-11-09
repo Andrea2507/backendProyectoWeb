@@ -1,0 +1,597 @@
+-- MySQL dump 10.13  Distrib 8.4.3, for Win64 (x86_64)
+--
+-- Host: localhost    Database: proyectofinal
+-- ------------------------------------------------------
+-- Server version	8.4.3
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `auditlog`
+--
+
+DROP TABLE IF EXISTS `auditlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `auditlog` (
+  `LogId` int NOT NULL AUTO_INCREMENT,
+  `UsuarioId` int DEFAULT NULL,
+  `entidad` varchar(40) NOT NULL,
+  `entidadId` int DEFAULT NULL,
+  `accion` varchar(20) NOT NULL,
+  `antes` json DEFAULT NULL,
+  `despues` json DEFAULT NULL,
+  `SucursalId` int DEFAULT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`LogId`),
+  KEY `fk_log_sucursal` (`SucursalId`),
+  KEY `idx_log_entidad_fecha` (`entidad`,`fecha`),
+  KEY `idx_log_usuario` (`UsuarioId`),
+  CONSTRAINT `fk_log_sucursal` FOREIGN KEY (`SucursalId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_log_usuario` FOREIGN KEY (`UsuarioId`) REFERENCES `usuario` (`UsuarioId`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=447 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auditlog`
+--
+
+LOCK TABLES `auditlog` WRITE;
+/*!40000 ALTER TABLE `auditlog` DISABLE KEYS */;
+INSERT INTO `auditlog` VALUES (1,2,'Usuario',2,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-17 09:50:32'),(2,2,'Categoria',8,'CREAR',NULL,'\"{\\\"CategoriaId\\\":8,\\\"nombre\\\":\\\"Memorias\\\"}\"',NULL,'2025-10-17 09:55:04'),(3,2,'Categoria',2,'EDITAR','\"{\\\"CategoriaId\\\":2,\\\"nombre\\\":\\\"Celulares\\\"}\"','\"{\\\"CategoriaId\\\":2,\\\"nombre\\\":\\\"Smartphones\\\"}\"',NULL,'2025-10-17 09:55:39'),(4,2,'Categoria',8,'ELIMINAR','\"{\\\"CategoriaId\\\":8,\\\"nombre\\\":\\\"Memorias\\\"}\"',NULL,NULL,'2025-10-17 09:55:56'),(5,NULL,'Usuario',8,'REGISTRO',NULL,'\"{\\\"activo\\\":true,\\\"UsuarioId\\\":8,\\\"nombre\\\":\\\"Gerente General\\\",\\\"correo\\\":\\\"gerenteee@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$y0.jpGWUrPXGF.oh7sD/OemEjv5BBoO3DFoojAmiFO7dd.MtoFRp6\\\",\\\"rol\\\":\\\"GERENTE\\\",\\\"SucursalId\\\":1}\"',NULL,'2025-10-17 10:54:17'),(6,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-17 10:54:57'),(7,8,'Producto',15,'CREAR',NULL,'\"{\\\"ProductoId\\\":15,\\\"sku\\\":\\\"Juan\\\",\\\"nombre\\\":\\\"Bocinita\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-10-17 10:56:14'),(8,8,'Producto',15,'EDITAR','\"{\\\"ProductoId\\\":15,\\\"sku\\\":\\\"Juan\\\",\\\"nombre\\\":\\\"Bocinita\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"','\"{\\\"ProductoId\\\":15,\\\"sku\\\":\\\"Juan\\\",\\\"nombre\\\":\\\"Bocina juan\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-10-17 10:56:41'),(9,8,'Producto',15,'ELIMINAR','\"{\\\"ProductoId\\\":15,\\\"sku\\\":\\\"Juan\\\",\\\"nombre\\\":\\\"Bocina juan\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-10-17 10:56:56'),(10,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-10-17 10:58:41'),(11,NULL,'Sucursal',8,'CREAR',NULL,'\"{\\\"SucursalId\\\":8,\\\"nombre\\\":\\\"Pradera SM\\\",\\\"ciudad\\\":\\\"SM\\\",\\\"direccion\\\":\\\"CC Pradera, Escuintla\\\"}\"',NULL,'2025-10-17 10:59:07'),(12,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":7}\"',NULL,'2025-10-17 10:59:43'),(13,NULL,'Sucursal',9,'CREAR',NULL,'\"{\\\"SucursalId\\\":9,\\\"nombre\\\":\\\"Pradera SM\\\",\\\"ciudad\\\":\\\"Escuintla\\\",\\\"direccion\\\":\\\"CC Pradera, Escuintla\\\"}\"',NULL,'2025-10-17 10:59:53'),(14,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":8}\"',NULL,'2025-10-17 10:59:56'),(15,NULL,'Sucursal',10,'CREAR',NULL,'\"{\\\"SucursalId\\\":10,\\\"nombre\\\":\\\"Ay no se\\\",\\\"ciudad\\\":\\\"Escuintla\\\",\\\"direccion\\\":\\\"CC Pradera, Escuintla\\\"}\"',NULL,'2025-10-17 11:00:31'),(16,NULL,'Sucursal',11,'CREAR',NULL,'\"{\\\"SucursalId\\\":11,\\\"nombre\\\":\\\"Por que se edita esta?\\\",\\\"ciudad\\\":\\\"Escuintla\\\",\\\"direccion\\\":\\\"quiero editar otra\\\"}\"',NULL,'2025-10-17 11:00:50'),(17,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":10}\"',NULL,'2025-10-17 11:00:56'),(18,NULL,'Sucursal',11,'ACTUALIZAR','\"{\\\"SucursalId\\\":11,\\\"nombre\\\":\\\"Por que se edita esta?\\\",\\\"ciudad\\\":\\\"Escuintla\\\",\\\"direccion\\\":\\\"quiero editar otra\\\"}\"','\"{\\\"SucursalId\\\":11,\\\"nombre\\\":\\\"Este es el id 11\\\",\\\"ciudad\\\":\\\"Escuintla\\\",\\\"direccion\\\":\\\"quiero editar otra\\\"}\"',NULL,'2025-10-17 11:01:23'),(19,NULL,'Sucursal',11,'ELIMINAR','\"{\\\"SucursalId\\\":11,\\\"nombre\\\":\\\"Este es el id 11\\\",\\\"ciudad\\\":\\\"Escuintla\\\",\\\"direccion\\\":\\\"quiero editar otra\\\"}\"',NULL,NULL,'2025-10-17 11:01:31'),(20,8,'Traslado',7,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-17T11:02:58.172Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\",\\\"TrasladoId\\\":7,\\\"OrigenId\\\":1,\\\"DestinoId\\\":2,\\\"UsuarioId\\\":1}\"',NULL,'2025-10-17 11:02:58'),(21,8,'Traslado',8,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-17T11:03:19.519Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\",\\\"TrasladoId\\\":8,\\\"OrigenId\\\":1,\\\"DestinoId\\\":2,\\\"UsuarioId\\\":1}\"',NULL,'2025-10-17 11:03:19'),(22,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top productos\\\"}\"',NULL,'2025-10-17 11:04:29'),(23,NULL,'Usuario',10,'REGISTRO',NULL,'\"{\\\"activo\\\":true,\\\"UsuarioId\\\":10,\\\"nombre\\\":\\\"Admin de prueba\\\",\\\"correo\\\":\\\"nuevo@store.com\\\",\\\"password_hash\\\":\\\"$2b$10$MQKuH6l7ZYIPGiXPRyG.Te/JclODhWS7ddvHDnSHvbzbVCKFx5ERC\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1}\"',NULL,'2025-10-26 04:37:25'),(24,10,'Usuario',10,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-26 04:37:38'),(25,10,'Traslado',9,'CREAR',NULL,'\"{\\\"TrasladoId\\\":9,\\\"OrigenId\\\":1,\\\"DestinoId\\\":2,\\\"UsuarioId\\\":1,\\\"fecha\\\":\\\"2025-10-26T04:44:46.362Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\"}\"',NULL,'2025-10-26 04:44:46'),(26,10,'Traslado',10,'CREAR',NULL,'\"{\\\"TrasladoId\\\":10,\\\"OrigenId\\\":1,\\\"DestinoId\\\":2,\\\"UsuarioId\\\":1,\\\"fecha\\\":\\\"2025-10-26T04:54:51.477Z\\\",\\\"estado\\\":\\\"PENDIENTE\\\"}\"',NULL,'2025-10-26 04:54:51'),(27,10,'Traslado',11,'CREAR',NULL,'\"{\\\"TrasladoId\\\":11,\\\"OrigenId\\\":1,\\\"DestinoId\\\":2,\\\"UsuarioId\\\":1,\\\"fecha\\\":\\\"2025-10-26T04:56:03.369Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\"}\"',NULL,'2025-10-26 04:56:03'),(28,10,'Usuario',10,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-26 07:34:59'),(29,NULL,'Cotizacion',4,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-27T03:26:06.798Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":4,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":1,\\\"total\\\":899.99}\"',NULL,'2025-10-27 03:26:06'),(30,NULL,'Cotizacion',5,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-27T03:26:19.858Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":5,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":1,\\\"total\\\":57}\"',NULL,'2025-10-27 03:26:19'),(31,NULL,'Cotizacion',6,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-27T03:33:25.113Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":6,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":1,\\\"total\\\":19}\"',NULL,'2025-10-27 03:33:25'),(32,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:20:41'),(33,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:20:41'),(34,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:36:22'),(35,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:36:22'),(36,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:15'),(37,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:15'),(38,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:19'),(39,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:19'),(40,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:24'),(41,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:24'),(42,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:34'),(43,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:39:34'),(44,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:40:29'),(45,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:40:29'),(46,NULL,'Cotizacion',7,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-28T04:41:03.789Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":7,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":9,\\\"total\\\":899.99}\"',NULL,'2025-10-28 04:41:03'),(47,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:41:05'),(48,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:41:05'),(49,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:41:56'),(50,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:41:56'),(51,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:45:59'),(52,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 04:45:59'),(53,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:03:51'),(54,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:03:51'),(55,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:07:13'),(56,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:07:13'),(57,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:09:35'),(58,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:09:35'),(59,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:11:02'),(60,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:11:02'),(61,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:12:39'),(62,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:12:39'),(63,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:13:29'),(64,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:13:29'),(65,NULL,'Cotizacion',8,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-10-28T05:19:20.203Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":8,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":1,\\\"total\\\":1099.99}\"',NULL,'2025-10-28 05:19:20'),(66,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:19:22'),(67,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-28 05:19:22'),(68,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:40:26'),(69,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:40:26'),(70,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:44:01'),(71,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:44:01'),(72,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:58:56'),(73,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:58:56'),(74,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:59:00'),(75,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 02:59:00'),(76,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:08:28'),(77,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:12:09'),(78,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:12:09'),(79,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:12:30'),(80,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:14:12'),(81,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:14:15'),(82,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:15:11'),(83,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:17:14'),(84,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:17:18'),(85,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:19:03'),(86,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:19:05'),(87,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:19:21'),(88,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:19:24'),(89,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:24:58'),(90,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:25:03'),(91,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:26:26'),(92,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:26:29'),(93,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:26:38'),(94,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:27:41'),(95,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:29:07'),(96,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:31:31'),(97,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:40:21'),(98,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:54:39'),(99,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:55:06'),(100,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 03:55:56'),(101,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:56:12'),(102,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:56:12'),(103,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:57:08'),(104,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:57:08'),(105,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:57:12'),(106,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 03:57:12'),(107,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 04:37:31'),(108,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-10-30 04:37:31'),(109,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 04:39:57'),(110,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-10-30 04:40:17'),(111,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:22:06'),(112,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:22:06'),(113,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:22:16'),(114,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:22:16'),(115,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 09:22:45'),(116,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:41:15'),(117,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:41:15'),(118,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:46:58'),(119,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 09:46:58'),(120,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:00:00'),(121,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:00:00'),(122,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:02:50'),(123,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:02:50'),(124,8,'Producto',16,'CREAR',NULL,'\"{\\\"ProductoId\\\":16,\\\"sku\\\":\\\"32823923\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Bocina Inalámbrica Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"300\\\",\\\"marca\\\":\\\"Sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:04:50'),(125,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:07:59'),(126,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:07:59'),(127,8,'Producto',22,'CREAR',NULL,'\"{\\\"ProductoId\\\":22,\\\"sku\\\":\\\"2112w21\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 \\\",\\\"descripcion\\\":\\\"bocina\\\",\\\"precio\\\":\\\"200\\\",\\\"marca\\\":\\\"sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:08:53'),(128,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:14:09'),(129,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:14:09'),(130,8,'Producto',24,'CREAR',NULL,'\"{\\\"ProductoId\\\":24,\\\"sku\\\":\\\"322323\\\",\\\"nombre\\\":\\\"Bocina Inalámbrica Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Bocina Inalámbrica Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"200\\\",\\\"marca\\\":\\\"sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:14:51'),(131,8,'Producto',22,'ELIMINAR','\"{\\\"ProductoId\\\":22,\\\"sku\\\":\\\"2112w21\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 \\\",\\\"descripcion\\\":\\\"bocina\\\",\\\"precio\\\":\\\"200.00\\\",\\\"marca\\\":\\\"sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 10:14:57'),(132,8,'Producto',16,'ELIMINAR','\"{\\\"ProductoId\\\":16,\\\"sku\\\":\\\"32823923\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Bocina Inalámbrica Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"300.00\\\",\\\"marca\\\":\\\"Sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 10:14:59'),(133,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:15:09'),(134,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:15:09'),(135,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:27:39'),(136,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:27:39'),(137,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:29:09'),(138,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:29:09'),(139,8,'Producto',25,'CREAR',NULL,'\"{\\\"ProductoId\\\":25,\\\"sku\\\":\\\"SRSULT10BCLA\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"350\\\",\\\"marca\\\":\\\"Sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:31:09'),(140,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:37:24'),(141,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:37:24'),(142,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:40:27'),(143,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:40:27'),(144,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 10:40:39'),(145,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juan\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:46:19'),(146,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:46:22'),(147,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:46:22'),(148,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:46:28'),(149,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:46:34'),(150,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:46:38'),(151,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:46:38'),(152,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:46:51'),(153,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:46:57'),(154,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:46:57'),(155,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,'2025-11-02 10:47:16'),(156,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:54:55'),(157,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:54:55'),(158,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:55:08'),(159,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:55:08'),(160,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:55:31'),(161,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 10:55:31'),(162,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":1,\\\"SucursalId\\\":1,\\\"ProductoId\\\":1,\\\"existencias\\\":8},{\\\"StockId\\\":4,\\\"SucursalId\\\":2,\\\"ProductoId\\\":1,\\\"existencias\\\":8}]}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":1,\\\"SucursalId\\\":1,\\\"ProductoId\\\":1,\\\"existencias\\\":8},{\\\"StockId\\\":4,\\\"SucursalId\\\":2,\\\"ProductoId\\\":1,\\\"existencias\\\":8}]}\"',NULL,'2025-11-02 10:59:16'),(163,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":1,\\\"SucursalId\\\":1,\\\"ProductoId\\\":1,\\\"existencias\\\":\\\"13\\\"},{\\\"StockId\\\":4,\\\"SucursalId\\\":2,\\\"ProductoId\\\":1,\\\"existencias\\\":8}]}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":1,\\\"SucursalId\\\":1,\\\"ProductoId\\\":1,\\\"existencias\\\":\\\"13\\\"},{\\\"StockId\\\":4,\\\"SucursalId\\\":2,\\\"ProductoId\\\":1,\\\"existencias\\\":8}]}\"',NULL,'2025-11-02 10:59:30'),(164,8,'Producto',3,'EDITAR','\"{\\\"ProductoId\\\":3,\\\"sku\\\":\\\"ASUS-123\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":2,\\\"SucursalId\\\":1,\\\"ProductoId\\\":3,\\\"existencias\\\":\\\"100\\\"}]}\"','\"{\\\"ProductoId\\\":3,\\\"sku\\\":\\\"ASUS-123\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":2,\\\"SucursalId\\\":1,\\\"ProductoId\\\":3,\\\"existencias\\\":\\\"100\\\"}]}\"',NULL,'2025-11-02 10:59:38'),(165,8,'Producto',12,'EDITAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true,\\\"Stock\\\":[]}\"','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true,\\\"Stock\\\":[]}\"',NULL,'2025-11-02 10:59:45'),(166,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 10:59:50'),(167,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 10:59:52'),(168,8,'Producto',14,'ELIMINAR','\"{\\\"ProductoId\\\":14,\\\"sku\\\":\\\"BOC123\\\",\\\"nombre\\\":\\\"Bocina JBL Go 3\\\",\\\"descripcion\\\":\\\"Bocina Bluetooth portátil resistente al agua\\\",\\\"precio\\\":\\\"450.99\\\",\\\"marca\\\":\\\"JBL\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 10:59:55'),(169,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 10:59:58'),(170,8,'Producto',24,'ELIMINAR','\"{\\\"ProductoId\\\":24,\\\"sku\\\":\\\"322323\\\",\\\"nombre\\\":\\\"Bocina Inalámbrica Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Bocina Inalámbrica Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"200.00\\\",\\\"marca\\\":\\\"sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:00:00'),(171,8,'Producto',25,'EDITAR','\"{\\\"ProductoId\\\":25,\\\"sku\\\":\\\"SRSULT10BCLA\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"350.00\\\",\\\"marca\\\":\\\"Sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":8,\\\"SucursalId\\\":5,\\\"ProductoId\\\":25,\\\"existencias\\\":\\\"210\\\"}]}\"','\"{\\\"ProductoId\\\":25,\\\"sku\\\":\\\"SRSULT10BCLA\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"350.00\\\",\\\"marca\\\":\\\"Sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":8,\\\"SucursalId\\\":5,\\\"ProductoId\\\":25,\\\"existencias\\\":\\\"210\\\"}]}\"',NULL,'2025-11-02 11:00:05'),(172,8,'Producto',12,'EDITAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true,\\\"Stock\\\":[]}\"','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true,\\\"Stock\\\":[]}\"',NULL,'2025-11-02 11:00:11'),(173,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:00:13'),(174,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 11:02:22'),(175,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 11:02:22'),(176,8,'Producto',26,'CREAR',NULL,'\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,'2025-11-02 11:05:42'),(177,8,'Producto',26,'EDITAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":9,\\\"SucursalId\\\":5,\\\"ProductoId\\\":26,\\\"existencias\\\":\\\"210\\\"}]}\"','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true,\\\"Stock\\\":[{\\\"StockId\\\":9,\\\"SucursalId\\\":5,\\\"ProductoId\\\":26,\\\"existencias\\\":\\\"210\\\"}]}\"',NULL,'2025-11-02 11:06:28'),(178,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:06:40'),(179,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:06:42'),(180,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:06:46'),(181,8,'Producto',25,'ELIMINAR','\"{\\\"ProductoId\\\":25,\\\"sku\\\":\\\"SRSULT10BCLA\\\",\\\"nombre\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"descripcion\\\":\\\"Sony ULT FIELD 1 (Negro)\\\",\\\"precio\\\":\\\"350.00\\\",\\\"marca\\\":\\\"Sony\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:06:48'),(182,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 11:07:00'),(183,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 11:07:00'),(184,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:07:37'),(185,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:09:12'),(186,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:11:08'),(187,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:12:05'),(188,8,'Producto',26,'ELIMINAR','\"{\\\"ProductoId\\\":26,\\\"sku\\\":\\\"23DHAS9\\\",\\\"nombre\\\":\\\" LG XBOOM Go XG5QBK Inalámbrica de 20W con Resistencia al Agua\\\",\\\"descripcion\\\":\\\"Bocina\\\",\\\"precio\\\":\\\"500.00\\\",\\\"marca\\\":\\\"LG\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:12:43'),(189,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:12:48'),(190,8,'Producto',12,'ELIMINAR','\"{\\\"ProductoId\\\":12,\\\"sku\\\":\\\"ASUS-12354\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":1,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:13:11'),(191,8,'Producto',3,'ELIMINAR','\"{\\\"ProductoId\\\":3,\\\"sku\\\":\\\"ASUS-123\\\",\\\"nombre\\\":\\\"Laptop ASUS\\\",\\\"descripcion\\\":\\\"Ryzen 7 16GB 512SSD\\\",\\\"precio\\\":\\\"899.99\\\",\\\"marca\\\":\\\"ASUS\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:13:13'),(192,8,'Producto',1,'ELIMINAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:13:15'),(193,8,'Producto',1,'EDITAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":null,\\\"activo\\\":true,\\\"Stock\\\":[]}\"','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true,\\\"Stock\\\":[]}\"',NULL,'2025-11-02 11:13:42'),(194,8,'Producto',1,'ELIMINAR','\"{\\\"ProductoId\\\":1,\\\"sku\\\":\\\"aaa\\\",\\\"nombre\\\":\\\"Juanito123\\\",\\\"descripcion\\\":\\\"jsajjsa\\\",\\\"precio\\\":\\\"19.00\\\",\\\"marca\\\":\\\"sjajsj\\\",\\\"CategoriaId\\\":7,\\\"activo\\\":true}\"',NULL,NULL,'2025-11-02 11:13:55'),(195,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 11:18:58'),(196,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":9}\"',NULL,'2025-11-02 11:18:58'),(197,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:29:31'),(198,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:29:31'),(199,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:40:41'),(200,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:40:41'),(201,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:41:33'),(202,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:41:33'),(203,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:49:28'),(204,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:49:28'),(205,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:50:56'),(206,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:50:56'),(207,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:50:58'),(208,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:50:58'),(209,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:54:02'),(210,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:54:02'),(211,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:55:55'),(212,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:55:55'),(213,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:59:02'),(214,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:59:02'),(215,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:59:40'),(216,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 11:59:40'),(217,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:00:16'),(218,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:00:39'),(219,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:00:39'),(220,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:00:41'),(221,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:00:41'),(222,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:01:14'),(223,1,'Traslado',1,'CREAR',NULL,'\"{\\\"TrasladoId\\\":1,\\\"OrigenId\\\":5,\\\"DestinoId\\\":1,\\\"UsuarioId\\\":1,\\\"fecha\\\":\\\"2025-11-02T12:06:47.320Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\"}\"',NULL,'2025-11-02 12:06:47'),(224,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:10:29'),(225,1,'Traslado',2,'CREAR',NULL,'\"{\\\"TrasladoId\\\":2,\\\"OrigenId\\\":1,\\\"DestinoId\\\":2,\\\"UsuarioId\\\":1,\\\"fecha\\\":\\\"2025-11-02T12:13:20.670Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\"}\"',NULL,'2025-11-02 12:13:20'),(226,1,'Traslado',3,'CREAR',NULL,'\"{\\\"TrasladoId\\\":3,\\\"OrigenId\\\":2,\\\"DestinoId\\\":1,\\\"UsuarioId\\\":1,\\\"fecha\\\":\\\"2025-11-02T12:13:48.320Z\\\",\\\"estado\\\":\\\"COMPLETADO\\\"}\"',NULL,'2025-11-02 12:13:48'),(227,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:27:50'),(228,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:27:54'),(229,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 12:30:51'),(230,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 07:54:26'),(231,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 07:56:53'),(232,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 07:56:53'),(233,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 07:59:35'),(234,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 07:59:35'),(235,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 08:02:18'),(236,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:03:49'),(237,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:03:49'),(238,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:07:34'),(239,NULL,'Venta',3,'CREAR',NULL,'\"{\\\"VentaId\\\":3,\\\"ClienteId\\\":null,\\\"SucursalId\\\":1,\\\"UsuarioId\\\":null,\\\"nota\\\":\\\"Compra en línea\\\",\\\"total\\\":350,\\\"estado\\\":\\\"PAGADA\\\",\\\"fecha\\\":\\\"2025-11-02T08:19:42.097Z\\\",\\\"nombreCliente\\\":\\\"Juan Lopez\\\",\\\"correoCliente\\\":\\\"juan@gmail.com\\\",\\\"direccionCliente\\\":\\\"hdsjaasdh, Izabal\\\",\\\"telefonoCliente\\\":\\\"28427382\\\"}\"',NULL,'2025-11-02 08:19:42'),(240,NULL,'Venta',4,'CREAR',NULL,'\"{\\\"VentaId\\\":4,\\\"ClienteId\\\":null,\\\"SucursalId\\\":1,\\\"UsuarioId\\\":null,\\\"nota\\\":\\\"Compra en línea\\\",\\\"total\\\":350,\\\"estado\\\":\\\"PAGADA\\\",\\\"fecha\\\":\\\"2025-11-02T08:22:04.458Z\\\",\\\"nombreCliente\\\":\\\"Maria Lopez\\\",\\\"correoCliente\\\":\\\"maria@gmail.com\\\",\\\"direccionCliente\\\":\\\"3801 Denison Avenue, Quetzaltenango\\\",\\\"telefonoCliente\\\":\\\"37482947\\\"}\"',NULL,'2025-11-02 08:22:04'),(241,NULL,'Venta',5,'CREAR',NULL,'\"{\\\"VentaId\\\":5,\\\"ClienteId\\\":null,\\\"SucursalId\\\":1,\\\"UsuarioId\\\":null,\\\"nota\\\":\\\"Compra en línea\\\",\\\"total\\\":350,\\\"estado\\\":\\\"ESPERANDO_PAGO\\\",\\\"metodoPago\\\":\\\"CONTRA_ENTREGA\\\",\\\"fecha\\\":\\\"2025-11-02T08:27:52.911Z\\\",\\\"nombreCliente\\\":\\\"Juan\\\",\\\"correoCliente\\\":\\\"juan@gmail.com\\\",\\\"direccionCliente\\\":\\\"3801 Denison Avenue, Petén\\\",\\\"telefonoCliente\\\":\\\"38274832\\\"}\"',NULL,'2025-11-02 08:27:52'),(242,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:32:56'),(243,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:34:20'),(244,NULL,'Venta',6,'CREAR',NULL,'\"{\\\"VentaId\\\":6,\\\"ClienteId\\\":null,\\\"SucursalId\\\":1,\\\"UsuarioId\\\":null,\\\"nota\\\":\\\"Compra en línea\\\",\\\"total\\\":350,\\\"estado\\\":\\\"PAGADA\\\",\\\"metodoPago\\\":\\\"TARJETA\\\",\\\"fecha\\\":\\\"2025-11-02T08:34:54.378Z\\\",\\\"nombreCliente\\\":\\\"maria\\\",\\\"correoCliente\\\":\\\"lopez\\\",\\\"direccionCliente\\\":\\\"3801 Denison Avenue, Petén\\\",\\\"telefonoCliente\\\":\\\"84383823\\\"}\"',NULL,'2025-11-02 08:34:54'),(245,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:35:32'),(246,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 08:38:26'),(247,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 08:47:09'),(248,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 08:47:24'),(249,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 08:48:30'),(250,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 08:48:35'),(251,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 08:48:35'),(252,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 08:48:38'),(253,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 08:48:39'),(254,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 08:48:44'),(255,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Ventas por rango\\\",\\\"inicio\\\":\\\"2025-10-01\\\",\\\"fin\\\":\\\"2025-11-05\\\"}\"',NULL,'2025-11-02 08:48:59'),(256,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 08:51:40'),(257,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 08:51:41'),(258,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 08:51:41'),(259,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 08:51:42'),(260,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 08:51:43'),(261,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 08:51:43'),(262,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 08:54:28'),(263,NULL,'Venta',7,'CREAR',NULL,'\"{\\\"VentaId\\\":7,\\\"ClienteId\\\":2,\\\"SucursalId\\\":1,\\\"UsuarioId\\\":null,\\\"nota\\\":\\\"Compra en línea\\\",\\\"total\\\":3299.9700000000003,\\\"estado\\\":\\\"ESPERANDO_PAGO\\\",\\\"metodoPago\\\":\\\"CONTRA_ENTREGA\\\",\\\"fecha\\\":\\\"2025-11-02T08:59:59.783Z\\\",\\\"nombreCliente\\\":\\\"juan\\\",\\\"correoCliente\\\":\\\"juan123@gmail.com\\\",\\\"direccionCliente\\\":\\\"3801 Denison Avenue, Quetzaltenango\\\",\\\"telefonoCliente\\\":\\\"38293828\\\"}\"',NULL,'2025-11-02 08:59:59'),(264,NULL,'Cotizacion',9,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-11-02T09:00:17.738Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":9,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":1,\\\"total\\\":1099.99}\"',NULL,'2025-11-02 09:00:17'),(265,NULL,'Cotizacion',10,'CREAR',NULL,'\"{\\\"fecha\\\":\\\"2025-11-02T09:00:23.337Z\\\",\\\"estado\\\":\\\"ABIERTA\\\",\\\"CotizacionId\\\":10,\\\"ClienteId\\\":1,\\\"correoCliente\\\":\\\"visitante@store.com\\\",\\\"SucursalId\\\":1,\\\"total\\\":1099.99}\"',NULL,'2025-11-02 09:00:23'),(266,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:02:55'),(267,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-02 09:03:19'),(268,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:03:21'),(269,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:03:22'),(270,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:03:23'),(271,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:03:23'),(272,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:04:13'),(273,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:04:14'),(274,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:05:47'),(275,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:05:49'),(276,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:05:53'),(277,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:05:54'),(278,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:06:21'),(279,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:06:47'),(280,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:06:47'),(281,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 09:06:48'),(282,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:06:48'),(283,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:06:49'),(284,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:06:52'),(285,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:06:52'),(286,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:06:53'),(287,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 09:07:35'),(288,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:07:36'),(289,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:07:37'),(290,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:10:01'),(291,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:11:26'),(292,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:11:29'),(293,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:11:30'),(294,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 09:11:31'),(295,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:11:31'),(296,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:11:32'),(297,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:11:32'),(298,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:11:35'),(299,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:11:40'),(300,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:11:49'),(301,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:13:21'),(302,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"1\\\"}\"',NULL,'2025-11-02 09:13:29'),(303,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"4\\\"}\"',NULL,'2025-11-02 09:13:31'),(304,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"2\\\"}\"',NULL,'2025-11-02 09:13:32'),(305,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:13:35'),(306,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:13:38'),(307,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:13:40'),(308,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:13:41'),(309,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:13:43'),(310,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 09:13:43'),(311,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:13:46'),(312,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\",\\\"sucursalId\\\":\\\"2\\\"}\"',NULL,'2025-11-02 09:13:48'),(313,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\",\\\"sucursalId\\\":\\\"6\\\"}\"',NULL,'2025-11-02 09:13:49'),(314,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:13:51'),(315,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:13:52'),(316,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\",\\\"sucursalId\\\":\\\"2\\\"}\"',NULL,'2025-11-02 09:13:53'),(317,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\",\\\"sucursalId\\\":\\\"6\\\"}\"',NULL,'2025-11-02 09:13:54'),(318,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\",\\\"sucursalId\\\":\\\"1\\\"}\"',NULL,'2025-11-02 09:13:55'),(319,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:13:58'),(320,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:14:52'),(321,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"1\\\"}\"',NULL,'2025-11-02 09:14:54'),(322,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:14:55'),(323,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"1\\\"}\"',NULL,'2025-11-02 09:14:56'),(324,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"2\\\"}\"',NULL,'2025-11-02 09:14:57'),(325,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:14:59'),(326,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-02 09:15:00'),(327,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-02 09:15:01'),(328,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-02 09:15:02'),(329,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-02 09:15:04'),(330,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Ventas por rango\\\",\\\"inicio\\\":\\\"2025-10-01\\\",\\\"fin\\\":\\\"2025-11-04\\\"}\"',NULL,'2025-11-02 09:15:12'),(331,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Ventas por rango\\\",\\\"inicio\\\":\\\"2025-10-01\\\",\\\"fin\\\":\\\"2025-11-04\\\",\\\"sucursalId\\\":\\\"3\\\"}\"',NULL,'2025-11-02 09:15:15'),(332,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Ventas por rango\\\",\\\"inicio\\\":\\\"2025-10-01\\\",\\\"fin\\\":\\\"2025-11-04\\\"}\"',NULL,'2025-11-02 09:15:16'),(333,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-02 09:16:38'),(334,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:22:38'),(335,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:25:03'),(336,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:25:55'),(337,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:38:47'),(338,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-02 09:40:15'),(339,8,'Usuario',1,'DESACTIVAR',NULL,'\"{\\\"UsuarioId\\\":1,\\\"nombre\\\":\\\"Administrador General\\\",\\\"correo\\\":\\\"admin@store.com\\\",\\\"password_hash\\\":\\\"$2b$10$JoOA2BwxWvXEMBA5UvjRuOHxVGsFD6B40TVYj1YJuvGZFOU5FOoAW\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":false}\"',NULL,'2025-11-02 09:44:05'),(340,8,'Usuario',1,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":1,\\\"nombre\\\":\\\"Administrador General\\\",\\\"correo\\\":\\\"admin@store.com\\\",\\\"password_hash\\\":\\\"$2b$10$JoOA2BwxWvXEMBA5UvjRuOHxVGsFD6B40TVYj1YJuvGZFOU5FOoAW\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-02 09:44:12'),(341,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:18:54'),(342,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:19:03'),(343,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:19:06'),(344,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-03 04:19:09'),(345,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-03 04:19:10'),(346,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-03 04:19:10'),(347,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-03 04:19:11'),(348,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-03 04:19:11'),(349,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:19:16'),(350,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-03 04:19:29'),(351,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:19:33'),(352,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:22:06'),(353,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:22:08'),(354,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:24:46'),(355,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:24:48'),(356,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:26:25'),(357,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:26:28'),(358,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:27:19'),(359,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:27:22'),(360,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:27:42'),(361,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:27:45'),(362,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:28:44'),(363,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:28:45'),(364,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:31:25'),(365,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:31:27'),(366,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-03 04:31:52'),(367,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:31:54'),(368,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:32:12'),(369,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:32:14'),(370,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:34:39'),(371,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:34:52'),(372,8,'Usuario',12,'CREAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:35:10'),(373,8,'Usuario',12,'DESACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":false}\"',NULL,'2025-11-03 04:35:16'),(374,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:35:22'),(375,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:40:13'),(376,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:40:21'),(377,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:40:25'),(378,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:40:33'),(379,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:40:48'),(380,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:43:00'),(381,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:43:09'),(382,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:43:12'),(383,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:43:18'),(384,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:43:23'),(385,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:43:44'),(386,8,'Usuario',11,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":11,\\\"nombre\\\":\\\"admin\\\",\\\"correo\\\":\\\"admin@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$Es4p8kCi7kUMFoDIl73zIeXJKvo6YB1Sokn7h6Pefi8pDEGF3eAU2\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:44:08'),(387,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:44:58'),(388,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:45:02'),(389,8,'Usuario',12,'DESACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":false}\"',NULL,'2025-11-03 04:45:04'),(390,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:45:09'),(391,8,'Usuario',12,'DESACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":false}\"',NULL,'2025-11-03 04:45:28'),(392,8,'Usuario',12,'ACTIVAR',NULL,'\"{\\\"UsuarioId\\\":12,\\\"nombre\\\":\\\"admin2\\\",\\\"correo\\\":\\\"admin2@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:45:45'),(393,8,'Usuario',13,'CREAR',NULL,'\"{\\\"UsuarioId\\\":13,\\\"nombre\\\":\\\"Admin3\\\",\\\"correo\\\":\\\"admin3@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$KO5lJ2Kdvv21wsujqNF1wOCn8YnPprS.7XaviqJHyn.c8d5rcOto2\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":true}\"',NULL,'2025-11-03 04:46:23'),(394,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:49:34'),(395,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:49:43'),(396,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:49:46'),(397,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:49:54'),(398,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-03 04:49:56'),(399,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:49:59'),(400,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:51:36'),(401,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:51:39'),(402,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-03 04:51:42'),(403,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:51:43'),(404,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:53:29'),(405,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:53:34'),(406,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:53:37'),(407,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:54:05'),(408,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:54:23'),(409,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:55:38'),(410,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:56:49'),(411,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:58:14'),(412,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:58:22'),(413,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 04:59:58'),(414,8,'Usuario',13,'DESACTIVAR',NULL,'\"{\\\"UsuarioId\\\":13,\\\"nombre\\\":\\\"Admin3\\\",\\\"correo\\\":\\\"admin3@gmail.com\\\",\\\"password_hash\\\":\\\"$2b$10$KO5lJ2Kdvv21wsujqNF1wOCn8YnPprS.7XaviqJHyn.c8d5rcOto2\\\",\\\"rol\\\":\\\"ADMIN\\\",\\\"SucursalId\\\":1,\\\"activo\\\":false}\"',NULL,'2025-11-03 05:00:27'),(415,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 15:46:31'),(416,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-03 15:47:28'),(417,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 15:47:41'),(418,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-03 15:47:55'),(419,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"1\\\"}\"',NULL,'2025-11-03 15:48:02'),(420,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\",\\\"sucursalId\\\":\\\"3\\\"}\"',NULL,'2025-11-03 15:48:03'),(421,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos bajo stock\\\"}\"',NULL,'2025-11-03 15:48:06'),(422,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos más vendidos por mes\\\"}\"',NULL,'2025-11-03 15:48:07'),(423,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\",\\\"sucursalId\\\":\\\"3\\\"}\"',NULL,'2025-11-03 15:48:09'),(424,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Productos por mes y sucursal\\\"}\"',NULL,'2025-11-03 15:48:11'),(425,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Clientes frecuentes\\\"}\"',NULL,'2025-11-03 15:48:13'),(426,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-03 15:48:25'),(427,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 03:59:44'),(428,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 03:59:49'),(429,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-04 04:08:14'),(430,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:08:20'),(431,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:11:00'),(432,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-04 04:11:20'),(433,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:11:28'),(434,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-04 04:11:30'),(435,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:11:32'),(436,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:11:37'),(437,NULL,'Reporte',NULL,'GENERAR',NULL,'\"{\\\"reporte\\\":\\\"Top 100 productos\\\"}\"',NULL,'2025-11-04 04:11:40'),(438,8,'Backup',NULL,'ERROR',NULL,'\"{\\\"detalle\\\":\\\"Command failed: mysqldump -u root proyectofinal > \\\\\\\"C:\\\\\\\\Users\\\\\\\\andre\\\\\\\\Documents\\\\\\\\6tosemestre\\\\\\\\Progra Web\\\\\\\\proyecto\\\\\\\\cliente-servidor-base-main - copia\\\\\\\\backups\\\\\\\\backup_2025-11-04T04-11-43-341Z.sql\\\\\\\"\\\\n\\\\\\\"mysqldump\\\\\\\" no se reconoce como un comando interno o externo,\\\\r\\\\nprograma o archivo por lotes ejecutable.\\\\r\\\\n\\\"}\"',NULL,'2025-11-04 04:11:43'),(439,8,'Usuario',8,'LOGIN',NULL,'\"{\\\"mensaje\\\":\\\"Inicio de sesión exitoso\\\"}\"',NULL,'2025-11-04 04:12:59'),(440,8,'Backup',NULL,'ERROR',NULL,'\"{\\\"detalle\\\":\\\"Command failed: mysqldump -u root proyectofinal > \\\\\\\"C:\\\\\\\\Users\\\\\\\\andre\\\\\\\\Documents\\\\\\\\6tosemestre\\\\\\\\Progra Web\\\\\\\\proyecto\\\\\\\\cliente-servidor-base-main - copia\\\\\\\\backups\\\\\\\\backup_2025-11-04T04-13-02-022Z.sql\\\\\\\"\\\\n\\\\\\\"mysqldump\\\\\\\" no se reconoce como un comando interno o externo,\\\\r\\\\nprograma o archivo por lotes ejecutable.\\\\r\\\\n\\\"}\"',NULL,'2025-11-04 04:13:02'),(441,8,'Backup',NULL,'ERROR',NULL,'\"{\\\"detalle\\\":\\\"Command failed: mysqldump -u root proyectofinal > \\\\\\\"C:\\\\\\\\Users\\\\\\\\andre\\\\\\\\Documents\\\\\\\\6tosemestre\\\\\\\\Progra Web\\\\\\\\proyecto\\\\\\\\cliente-servidor-base-main - copia\\\\\\\\backups\\\\\\\\backup_2025-11-04T04-13-37-295Z.sql\\\\\\\"\\\\n\\\\\\\"mysqldump\\\\\\\" no se reconoce como un comando interno o externo,\\\\r\\\\nprograma o archivo por lotes ejecutable.\\\\r\\\\n\\\"}\"',NULL,'2025-11-04 04:13:37'),(442,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:13:47'),(443,NULL,'Sucursal',NULL,'CONSULTAR',NULL,'\"{\\\"total\\\":6}\"',NULL,'2025-11-04 04:13:48'),(444,8,'Backup',NULL,'ERROR',NULL,'\"{\\\"detalle\\\":\\\"Command failed: mysqldump -u root proyectofinal > \\\\\\\"C:\\\\\\\\Users\\\\\\\\andre\\\\\\\\Documents\\\\\\\\6tosemestre\\\\\\\\Progra Web\\\\\\\\proyecto\\\\\\\\cliente-servidor-base-main - copia\\\\\\\\backups\\\\\\\\backup_2025-11-04T04-13-51-363Z.sql\\\\\\\"\\\\n\\\\\\\"mysqldump\\\\\\\" no se reconoce como un comando interno o externo,\\\\r\\\\nprograma o archivo por lotes ejecutable.\\\\r\\\\n\\\"}\"',NULL,'2025-11-04 04:13:51'),(445,8,'Backup',NULL,'ERROR',NULL,'\"{\\\"detalle\\\":\\\"Command failed: mysqldump -u root proyectofinal > \\\\\\\"C:\\\\\\\\Users\\\\\\\\andre\\\\\\\\Documents\\\\\\\\6tosemestre\\\\\\\\Progra Web\\\\\\\\proyecto\\\\\\\\cliente-servidor-base-main - copia\\\\\\\\backups\\\\\\\\backup_2025-11-04T04-14-35-747Z.sql\\\\\\\"\\\\n\\\\\\\"mysqldump\\\\\\\" no se reconoce como un comando interno o externo,\\\\r\\\\nprograma o archivo por lotes ejecutable.\\\\r\\\\n\\\"}\"',NULL,'2025-11-04 04:14:35'),(446,8,'Backup',NULL,'CREAR',NULL,'\"{\\\"archivo\\\":\\\"backup_2025-11-04T04-25-44-798Z.sql\\\",\\\"tamanoMB\\\":\\\"0.10\\\"}\"',NULL,'2025-11-04 04:25:45');
+/*!40000 ALTER TABLE `auditlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `backuplog`
+--
+
+DROP TABLE IF EXISTS `backuplog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `backuplog` (
+  `BackupLogId` int NOT NULL AUTO_INCREMENT,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tipo` enum('COMPLETO','DIFERENCIAL','INCREMENTAL') NOT NULL,
+  `tamanoMB` decimal(12,2) DEFAULT NULL,
+  `ok` tinyint(1) NOT NULL DEFAULT '1',
+  `detalle` varchar(300) DEFAULT NULL,
+  `ubicacion` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`BackupLogId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `backuplog`
+--
+
+LOCK TABLES `backuplog` WRITE;
+/*!40000 ALTER TABLE `backuplog` DISABLE KEYS */;
+INSERT INTO `backuplog` VALUES (1,'2025-11-04 04:11:43','COMPLETO',NULL,0,'Command failed: mysqldump -u root proyectofinal > \"C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-11-43-341Z.sql\"\n\"mysqldump\" no se reconoce como un comando interno o externo,\r\nprograma o archivo por lotes ejecutable.\r\n','C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-11-43-341Z.sql'),(2,'2025-11-04 04:13:02','COMPLETO',NULL,0,'Command failed: mysqldump -u root proyectofinal > \"C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-13-02-022Z.sql\"\n\"mysqldump\" no se reconoce como un comando interno o externo,\r\nprograma o archivo por lotes ejecutable.\r\n','C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-13-02-022Z.sql'),(3,'2025-11-04 04:13:37','COMPLETO',NULL,0,'Command failed: mysqldump -u root proyectofinal > \"C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-13-37-295Z.sql\"\n\"mysqldump\" no se reconoce como un comando interno o externo,\r\nprograma o archivo por lotes ejecutable.\r\n','C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-13-37-295Z.sql'),(4,'2025-11-04 04:13:51','COMPLETO',NULL,0,'Command failed: mysqldump -u root proyectofinal > \"C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-13-51-363Z.sql\"\n\"mysqldump\" no se reconoce como un comando interno o externo,\r\nprograma o archivo por lotes ejecutable.\r\n','C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-13-51-363Z.sql'),(5,'2025-11-04 04:14:35','COMPLETO',NULL,0,'Command failed: mysqldump -u root proyectofinal > \"C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-14-35-747Z.sql\"\n\"mysqldump\" no se reconoce como un comando interno o externo,\r\nprograma o archivo por lotes ejecutable.\r\n','C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-14-35-747Z.sql'),(6,'2025-11-04 04:25:45','COMPLETO',0.10,1,NULL,'C:\\Users\\andre\\Documents\\6tosemestre\\Progra Web\\proyecto\\cliente-servidor-base-main - copia\\backups\\backup_2025-11-04T04-25-44-798Z.sql');
+/*!40000 ALTER TABLE `backuplog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categoria`
+--
+
+DROP TABLE IF EXISTS `categoria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categoria` (
+  `CategoriaId` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(80) NOT NULL,
+  PRIMARY KEY (`CategoriaId`),
+  UNIQUE KEY `uq_categoria_nombre` (`nombre`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categoria`
+--
+
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (4,'Accesorios'),(7,'Bocinas'),(3,'Cámaras'),(1,'Laptops'),(2,'Smartphones');
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cliente` (
+  `ClienteId` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(150) NOT NULL,
+  `correo` varchar(150) DEFAULT NULL,
+  `telefono` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`ClienteId`),
+  UNIQUE KEY `uq_cliente_correo` (`correo`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,'Cliente de prueba','cliente@correo.com','55555555'),(2,'juan','juan123@gmail.com','38293828');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizacion`
+--
+
+DROP TABLE IF EXISTS `cotizacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cotizacion` (
+  `CotizacionId` int NOT NULL AUTO_INCREMENT,
+  `ClienteId` int DEFAULT NULL,
+  `correoCliente` varchar(150) DEFAULT NULL,
+  `SucursalId` int DEFAULT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `total` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `estado` enum('ABIERTA','CERRADA','VENCIDA') NOT NULL DEFAULT 'ABIERTA',
+  PRIMARY KEY (`CotizacionId`),
+  KEY `fk_cot_cliente` (`ClienteId`),
+  KEY `fk_cot_sucursal` (`SucursalId`),
+  KEY `idx_cotizacion_fecha` (`fecha`),
+  KEY `idx_cotizacion_estado` (`estado`),
+  CONSTRAINT `fk_cot_cliente` FOREIGN KEY (`ClienteId`) REFERENCES `cliente` (`ClienteId`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_cot_sucursal` FOREIGN KEY (`SucursalId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizacion`
+--
+
+LOCK TABLES `cotizacion` WRITE;
+/*!40000 ALTER TABLE `cotizacion` DISABLE KEYS */;
+INSERT INTO `cotizacion` VALUES (1,NULL,'cliente@test.com',1,'2025-10-14 04:39:51',2899.97,'CERRADA'),(3,1,'cliente@correo.com',1,'2025-10-15 04:52:26',2899.97,'ABIERTA'),(4,1,'visitante@store.com',1,'2025-10-27 03:26:06',899.99,'ABIERTA'),(5,1,'visitante@store.com',1,'2025-10-27 03:26:19',57.00,'ABIERTA'),(6,1,'visitante@store.com',1,'2025-10-27 03:33:25',19.00,'ABIERTA'),(7,1,'visitante@store.com',NULL,'2025-10-28 04:41:03',899.99,'ABIERTA'),(8,1,'visitante@store.com',1,'2025-10-28 05:19:20',1099.99,'ABIERTA'),(9,1,'visitante@store.com',1,'2025-11-02 09:00:17',1099.99,'ABIERTA'),(10,1,'visitante@store.com',1,'2025-11-02 09:00:23',1099.99,'ABIERTA');
+/*!40000 ALTER TABLE `cotizacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cotizacionitem`
+--
+
+DROP TABLE IF EXISTS `cotizacionitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cotizacionitem` (
+  `CotizacionItemId` int NOT NULL AUTO_INCREMENT,
+  `CotizacionId` int NOT NULL,
+  `ProductoId` int NOT NULL,
+  `cantidad` int NOT NULL,
+  `precioUnit` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`CotizacionItemId`),
+  KEY `fk_citem_cot` (`CotizacionId`),
+  KEY `idx_citem_producto` (`ProductoId`),
+  CONSTRAINT `fk_citem_cot` FOREIGN KEY (`CotizacionId`) REFERENCES `cotizacion` (`CotizacionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_citem_producto` FOREIGN KEY (`ProductoId`) REFERENCES `producto` (`ProductoId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `cotizacionitem_chk_1` CHECK ((`cantidad` > 0))
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cotizacionitem`
+--
+
+LOCK TABLES `cotizacionitem` WRITE;
+/*!40000 ALTER TABLE `cotizacionitem` DISABLE KEYS */;
+INSERT INTO `cotizacionitem` VALUES (2,1,13,1,1099.99),(4,3,13,1,1099.99),(9,8,13,1,1099.99),(10,9,13,1,1099.99),(11,10,13,1,1099.99);
+/*!40000 ALTER TABLE `cotizacionitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producto`
+--
+
+DROP TABLE IF EXISTS `producto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `producto` (
+  `ProductoId` int NOT NULL AUTO_INCREMENT,
+  `sku` varchar(40) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `descripcion` varchar(500) DEFAULT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  `marca` varchar(80) DEFAULT NULL,
+  `CategoriaId` int DEFAULT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ProductoId`),
+  UNIQUE KEY `uq_producto_sku` (`sku`),
+  KEY `idx_producto_nombre` (`nombre`),
+  KEY `idx_producto_categoria` (`CategoriaId`),
+  CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`CategoriaId`) REFERENCES `categoria` (`CategoriaId`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `producto`
+--
+
+LOCK TABLES `producto` WRITE;
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (13,'IPHONE-15','iPhone 15','128GB Blue',1099.99,'Apple',2,1),(25,'SRSULT10BCLA','Sony ULT FIELD 1 (Negro)','Sony ULT FIELD 1 (Negro)',350.00,'Sony',7,1);
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productofoto`
+--
+
+DROP TABLE IF EXISTS `productofoto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `productofoto` (
+  `ProductoFotoId` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `ProductoId` int NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `principal` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`ProductoFotoId`),
+  UNIQUE KEY `ProductoFotoId` (`ProductoFotoId`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productofoto`
+--
+
+LOCK TABLES `productofoto` WRITE;
+/*!40000 ALTER TABLE `productofoto` DISABLE KEYS */;
+INSERT INTO `productofoto` VALUES (4,13,'/uploads/1761464861053.jpg',0),(5,14,'/uploads/1761464871878.jpg',0),(6,24,'/uploads/1762078491800.jpg',0),(7,25,'/uploads/1762079469165.png',0);
+/*!40000 ALTER TABLE `productofoto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock`
+--
+
+DROP TABLE IF EXISTS `stock`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `stock` (
+  `StockId` int NOT NULL AUTO_INCREMENT,
+  `SucursalId` int NOT NULL,
+  `ProductoId` int NOT NULL,
+  `existencias` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`StockId`),
+  UNIQUE KEY `uq_sucursal_producto` (`SucursalId`,`ProductoId`),
+  UNIQUE KEY `stock__sucursal_id__producto_id` (`SucursalId`,`ProductoId`),
+  KEY `fk_stock_producto` (`ProductoId`),
+  CONSTRAINT `fk_stock_producto` FOREIGN KEY (`ProductoId`) REFERENCES `producto` (`ProductoId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_stock_sucursal` FOREIGN KEY (`SucursalId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stock`
+--
+
+LOCK TABLES `stock` WRITE;
+/*!40000 ALTER TABLE `stock` DISABLE KEYS */;
+INSERT INTO `stock` VALUES (3,1,13,28),(5,2,13,7),(8,5,25,206),(11,1,25,0);
+/*!40000 ALTER TABLE `stock` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sucursal`
+--
+
+DROP TABLE IF EXISTS `sucursal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sucursal` (
+  `SucursalId` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(120) NOT NULL,
+  `ciudad` varchar(80) NOT NULL,
+  `direccion` varchar(200) NOT NULL,
+  PRIMARY KEY (`SucursalId`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sucursal`
+--
+
+LOCK TABLES `sucursal` WRITE;
+/*!40000 ALTER TABLE `sucursal` DISABLE KEYS */;
+INSERT INTO `sucursal` VALUES (1,'Pradera Chimaltenango','Chimaltenango','CC Pradera, Chimaltenango'),(2,'Pradera Escuintla','Escuintla','CC Pradera, Escuintla'),(3,'Las Américas','Mazatenango','Las Américas, Mazatenango'),(4,'La Trinidad','Coatepeque','La Trinidad, Coatepeque'),(5,'Pradera Xela','Quetzaltenango','CC Pradera Xela'),(6,'Miraflores','Guatemala','CC Miraflores, Zona 11');
+/*!40000 ALTER TABLE `sucursal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `suscriptor`
+--
+
+DROP TABLE IF EXISTS `suscriptor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `suscriptor` (
+  `SuscriptorId` int NOT NULL AUTO_INCREMENT,
+  `correo` varchar(150) NOT NULL,
+  `fechaAlta` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`SuscriptorId`),
+  UNIQUE KEY `uq_suscriptor_correo` (`correo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `suscriptor`
+--
+
+LOCK TABLES `suscriptor` WRITE;
+/*!40000 ALTER TABLE `suscriptor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `suscriptor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `traslado`
+--
+
+DROP TABLE IF EXISTS `traslado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `traslado` (
+  `TrasladoId` int NOT NULL AUTO_INCREMENT,
+  `OrigenId` int NOT NULL,
+  `DestinoId` int NOT NULL,
+  `UsuarioId` int NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` enum('PENDIENTE','COMPLETADO','ANULADO') NOT NULL DEFAULT 'PENDIENTE',
+  PRIMARY KEY (`TrasladoId`),
+  KEY `fk_traslado_origen` (`OrigenId`),
+  KEY `fk_traslado_destino` (`DestinoId`),
+  KEY `fk_traslado_usuario` (`UsuarioId`),
+  KEY `idx_traslado_fecha` (`fecha`),
+  CONSTRAINT `fk_traslado_destino` FOREIGN KEY (`DestinoId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_traslado_origen` FOREIGN KEY (`OrigenId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_traslado_usuario` FOREIGN KEY (`UsuarioId`) REFERENCES `usuario` (`UsuarioId`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `traslado`
+--
+
+LOCK TABLES `traslado` WRITE;
+/*!40000 ALTER TABLE `traslado` DISABLE KEYS */;
+INSERT INTO `traslado` VALUES (1,5,1,1,'2025-11-02 12:06:47','COMPLETADO'),(2,1,2,1,'2025-11-02 12:13:20','COMPLETADO'),(3,2,1,1,'2025-11-02 12:13:48','COMPLETADO');
+/*!40000 ALTER TABLE `traslado` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trasladoitem`
+--
+
+DROP TABLE IF EXISTS `trasladoitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `trasladoitem` (
+  `TrasladoItemId` int NOT NULL AUTO_INCREMENT,
+  `TrasladoId` int NOT NULL,
+  `ProductoId` int NOT NULL,
+  `cantidad` int NOT NULL,
+  PRIMARY KEY (`TrasladoItemId`),
+  KEY `idx_titem_producto` (`ProductoId`),
+  KEY `fk_traslado` (`TrasladoId`),
+  CONSTRAINT `fk_producto_traslado` FOREIGN KEY (`ProductoId`) REFERENCES `producto` (`ProductoId`),
+  CONSTRAINT `fk_titem_producto` FOREIGN KEY (`ProductoId`) REFERENCES `producto` (`ProductoId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_titem_traslado` FOREIGN KEY (`TrasladoId`) REFERENCES `traslado` (`TrasladoId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_traslado` FOREIGN KEY (`TrasladoId`) REFERENCES `traslado` (`TrasladoId`) ON DELETE CASCADE,
+  CONSTRAINT `trasladoitem_chk_1` CHECK ((`cantidad` > 0))
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trasladoitem`
+--
+
+LOCK TABLES `trasladoitem` WRITE;
+/*!40000 ALTER TABLE `trasladoitem` DISABLE KEYS */;
+INSERT INTO `trasladoitem` VALUES (1,1,25,4),(2,2,13,3),(3,3,13,5);
+/*!40000 ALTER TABLE `trasladoitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario` (
+  `UsuarioId` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(120) NOT NULL,
+  `correo` varchar(150) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `rol` enum('ADMIN','GERENTE') NOT NULL,
+  `SucursalId` int DEFAULT NULL,
+  `activo` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`UsuarioId`),
+  UNIQUE KEY `uq_usuario_correo` (`correo`),
+  KEY `fk_usuario_sucursal` (`SucursalId`),
+  KEY `idx_usuario_rol` (`rol`),
+  CONSTRAINT `fk_usuario_sucursal` FOREIGN KEY (`SucursalId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario`
+--
+
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,'Administrador General','admin@store.com','$2b$10$JoOA2BwxWvXEMBA5UvjRuOHxVGsFD6B40TVYj1YJuvGZFOU5FOoAW','ADMIN',1,1),(2,'Gerente Principal','gerente@store.com','$2b$10$JoOA2BwxWvXEMBA5UvjRuOHxVGsFD6B40TVYj1YJuvGZFOU5FOoAW','GERENTE',1,1),(4,'Administrador Principal','admin@store123.com','$2b$10$bSpbWy78JOD7oboAvZVqXuhrjqpb4m4T95GYTd.zcnpLKAuE128CO','ADMIN',1,1),(5,'Gerente General','gerente@gmail.com','$2b$10$YtV/J5aXAhHgTt/j0VxCjO/1zFrxUjQ4E4iLxTLEfZjFxAr5VZp96','GERENTE',1,1),(7,'Gerente General','gerente@gmal.com','$2b$10$YtV/J5aXAhHgTt/j0VxCjO/1zFrxUjQ4E4iLxTLEfZjFxAr5VZp96','GERENTE',1,1),(8,'Gerente General','gerenteee@gmail.com','$2b$10$y0.jpGWUrPXGF.oh7sD/OemEjv5BBoO3DFoojAmiFO7dd.MtoFRp6','GERENTE',1,1),(10,'Admin de prueba','nuevo@store.com','$2b$10$MQKuH6l7ZYIPGiXPRyG.Te/JclODhWS7ddvHDnSHvbzbVCKFx5ERC','ADMIN',1,1),(11,'admin','admin@gmail.com','$2b$10$Es4p8kCi7kUMFoDIl73zIeXJKvo6YB1Sokn7h6Pefi8pDEGF3eAU2','ADMIN',1,1),(12,'admin2','admin2@gmail.com','$2b$10$tXIMCGtfpCZERvrKZfDSAOeY.qT3kVljDasX0saabxmkJ.tDRMivm','ADMIN',1,1),(13,'Admin3','admin3@gmail.com','$2b$10$KO5lJ2Kdvv21wsujqNF1wOCn8YnPprS.7XaviqJHyn.c8d5rcOto2','ADMIN',1,0);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `v_productos_vendidos_por_mes`
+--
+
+DROP TABLE IF EXISTS `v_productos_vendidos_por_mes`;
+/*!50001 DROP VIEW IF EXISTS `v_productos_vendidos_por_mes`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_productos_vendidos_por_mes` AS SELECT 
+ 1 AS `mes`,
+ 1 AS `ProductoId`,
+ 1 AS `cantidad`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `v_productos_vendidos_por_mes_sucursal`
+--
+
+DROP TABLE IF EXISTS `v_productos_vendidos_por_mes_sucursal`;
+/*!50001 DROP VIEW IF EXISTS `v_productos_vendidos_por_mes_sucursal`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `v_productos_vendidos_por_mes_sucursal` AS SELECT 
+ 1 AS `mes`,
+ 1 AS `SucursalId`,
+ 1 AS `ProductoId`,
+ 1 AS `cantidad`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `venta`
+--
+
+DROP TABLE IF EXISTS `venta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `venta` (
+  `VentaId` int NOT NULL AUTO_INCREMENT,
+  `ClienteId` int DEFAULT NULL,
+  `SucursalId` int NOT NULL,
+  `UsuarioId` int DEFAULT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `total` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `estado` enum('PAGADA','ESPERANDO_PAGO','ANULADA') DEFAULT 'ESPERANDO_PAGO',
+  `nota` varchar(300) DEFAULT NULL,
+  `nombreCliente` varchar(100) DEFAULT NULL,
+  `correoCliente` varchar(100) DEFAULT NULL,
+  `direccionCliente` text,
+  `telefonoCliente` varchar(20) DEFAULT NULL,
+  `metodoPago` enum('TARJETA','CONTRA_ENTREGA') NOT NULL DEFAULT 'CONTRA_ENTREGA',
+  PRIMARY KEY (`VentaId`),
+  KEY `fk_venta_usuario` (`UsuarioId`),
+  KEY `idx_venta_fecha` (`fecha`),
+  KEY `idx_venta_sucursal` (`SucursalId`),
+  KEY `idx_venta_estado` (`estado`),
+  KEY `idx_venta_fecha_sucursal` (`fecha`,`SucursalId`),
+  KEY `idx_venta_cliente` (`ClienteId`),
+  KEY `idx_venta_rango` (`fecha`,`estado`),
+  CONSTRAINT `fk_venta_cliente` FOREIGN KEY (`ClienteId`) REFERENCES `cliente` (`ClienteId`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_venta_sucursal` FOREIGN KEY (`SucursalId`) REFERENCES `sucursal` (`SucursalId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_venta_usuario` FOREIGN KEY (`UsuarioId`) REFERENCES `usuario` (`UsuarioId`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `venta`
+--
+
+LOCK TABLES `venta` WRITE;
+/*!40000 ALTER TABLE `venta` DISABLE KEYS */;
+INSERT INTO `venta` VALUES (5,NULL,1,NULL,'2025-11-02 08:27:52',350.00,'ESPERANDO_PAGO','Compra en línea','Juan','juan@gmail.com','3801 Denison Avenue, Petén','38274832','CONTRA_ENTREGA'),(6,NULL,1,NULL,'2025-11-02 08:34:54',350.00,'PAGADA','Compra en línea','maria','lopez','3801 Denison Avenue, Petén','84383823','TARJETA'),(7,2,1,NULL,'2025-11-02 08:59:59',3299.97,'ESPERANDO_PAGO','Compra en línea','juan','juan123@gmail.com','3801 Denison Avenue, Quetzaltenango','38293828','CONTRA_ENTREGA');
+/*!40000 ALTER TABLE `venta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventaitem`
+--
+
+DROP TABLE IF EXISTS `ventaitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ventaitem` (
+  `VentaItemId` int NOT NULL AUTO_INCREMENT,
+  `VentaId` int NOT NULL,
+  `ProductoId` int NOT NULL,
+  `cantidad` int NOT NULL,
+  `precioUnit` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`VentaItemId`),
+  KEY `idx_vitem_producto` (`ProductoId`),
+  KEY `idx_vitem_venta_producto` (`VentaId`,`ProductoId`),
+  CONSTRAINT `fk_vitem_producto` FOREIGN KEY (`ProductoId`) REFERENCES `producto` (`ProductoId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_vitem_venta` FOREIGN KEY (`VentaId`) REFERENCES `venta` (`VentaId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ventaitem_chk_1` CHECK ((`cantidad` > 0))
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventaitem`
+--
+
+LOCK TABLES `ventaitem` WRITE;
+/*!40000 ALTER TABLE `ventaitem` DISABLE KEYS */;
+INSERT INTO `ventaitem` VALUES (6,5,25,1,350.00),(7,6,25,1,350.00),(8,7,13,3,1099.99);
+/*!40000 ALTER TABLE `ventaitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Final view structure for view `v_productos_vendidos_por_mes`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_productos_vendidos_por_mes`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_productos_vendidos_por_mes` AS select date_format(`v`.`fecha`,'%Y-%m-01') AS `mes`,`vi`.`ProductoId` AS `ProductoId`,sum(`vi`.`cantidad`) AS `cantidad` from (`venta` `v` join `ventaitem` `vi` on((`vi`.`VentaId` = `v`.`VentaId`))) where (`v`.`estado` = 'PAGADA') group by `mes`,`vi`.`ProductoId` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `v_productos_vendidos_por_mes_sucursal`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_productos_vendidos_por_mes_sucursal`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_productos_vendidos_por_mes_sucursal` AS select date_format(`v`.`fecha`,'%Y-%m-01') AS `mes`,`v`.`SucursalId` AS `SucursalId`,`vi`.`ProductoId` AS `ProductoId`,sum(`vi`.`cantidad`) AS `cantidad` from (`venta` `v` join `ventaitem` `vi` on((`vi`.`VentaId` = `v`.`VentaId`))) where (`v`.`estado` = 'PAGADA') group by `mes`,`v`.`SucursalId`,`vi`.`ProductoId` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-11-03 22:35:00
