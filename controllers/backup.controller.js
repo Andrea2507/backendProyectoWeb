@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const BackupLog = require('../models/backuplog.model')
 const { registrarLog } = require('../middlewares/log.middleware')
-const sequelize = require('../config/db')
+const sequelize = require('../db/db.js')
 
 async function generarArchivo(nombreArchivo) {
   const carpeta = path.join(__dirname, '../backups')
