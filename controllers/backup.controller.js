@@ -23,50 +23,27 @@ exports.generarBackup = async (req, res) => {
     const tipo = 'COMPLETO'
     const fecha = new Date()
     const nombreArchivo = `backup_${fecha.toISOString().replace(/[:.]/g, '-')}.sql`
-    const rutaCarpeta = path.join(__dirname, '../backups')
-    const rutaArchivo = path.join(rutaCarpeta, nombreArchivo)
+    const carpeta = path.join(__dirname, '../backups')
+    const archivo = path.join(carpeta, nombreArchivo)
 
-    if (!fs.existsSync(rutaCarpeta)) fs.mkdirSync(rutaCarpeta)
+    if (!fs.existsSync(carpeta)) fs.mkdirSync(carpeta)
 
-    const comando = buildDumpCommand(rutaArchivo)
+    const comando = buildDumpCommand(archivo)
 
     exec(comando, async (error) => {
       if (error) {
-        await BackupLog.create({
-          tipo,
-          ok: 0,
-          detalle: error.message,
-          ubicacion: rutaArchivo
-        })
-
-        return res.status(500).json({
-          message: 'Error al generar backup',
-          error: error.message
-        })
+        await BackupLog.create({ tipo, ok: 0, detalle: error.message, ubicacion: archivo })
+        return res.status(500).json({ message: 'Error al generar backup' })
       }
 
-      const tamanoMB = (fs.statSync(rutaArchivo).size / 1024 / 1024).toFixed(2)
+      const tamanoMB = (fs.statSync(archivo).size / 1024 / 1024).toFixed(2)
+      await BackupLog.create({ tipo, tamanoMB, ok: 1, ubicacion: archivo })
+      await registrarLog(req.user?.id, 'Backup', null, 'CREAR', null, { archivo: nombreArchivo, tamanoMB })
 
-      await BackupLog.create({
-        tipo,
-        tamanoMB,
-        ok: 1,
-        ubicacion: rutaArchivo
-      })
-
-      await registrarLog(req.user?.id, 'Backup', null, 'CREAR', null, {
-        archivo: nombreArchivo,
-        tamanoMB
-      })
-
-      res.json({
-        message: 'Backup generado correctamente',
-        archivo: nombreArchivo,
-        tamanoMB
-      })
+      res.json({ message: 'Backup generado correctamente', archivo: nombreArchivo, tamanoMB })
     })
   } catch (e) {
-    res.status(500).json({ message: 'Error interno al generar backup', error: e.message })
+    res.status(500).json({ message: 'Error interno al generar backup' })
   }
 }
 
@@ -77,30 +54,19 @@ exports.programarBackup = () => {
     const tipo = 'COMPLETO'
     const fecha = new Date()
     const nombreArchivo = `backup_auto_${fecha.toISOString().replace(/[:.]/g, '-')}.sql`
-    const rutaCarpeta = path.join(__dirname, '../backups')
-    const rutaArchivo = path.join(rutaCarpeta, nombreArchivo)
+    const carpeta = path.join(__dirname, '../backups')
+    const archivo = path.join(carpeta, nombreArchivo)
 
-    if (!fs.existsSync(rutaCarpeta)) fs.mkdirSync(rutaCarpeta)
+    if (!fs.existsSync(carpeta)) fs.mkdirSync(carpeta)
 
-    const comando = buildDumpCommand(rutaArchivo)
+    const comando = buildDumpCommand(archivo)
 
     exec(comando, async (error) => {
       if (error) {
-        await BackupLog.create({
-          tipo,
-          ok: 0,
-          detalle: error.message,
-          ubicacion: rutaArchivo
-        })
+        await BackupLog.create({ tipo, ok: 0, detalle: error.message, ubicacion: archivo })
       } else {
-        const tamanoMB = (fs.statSync(rutaArchivo).size / 1024 / 1024).toFixed(2)
-
-        await BackupLog.create({
-          tipo,
-          tamanoMB,
-          ok: 1,
-          ubicacion: rutaArchivo
-        })
+        const tamanoMB = (fs.statSync(archivo).size / 1024 / 1024).toFixed(2)
+        await BackupLog.create({ tipo, tamanoMB, ok: 1, ubicacion: archivo })
       }
     })
   }, dia)
@@ -111,7 +77,7 @@ exports.listarBackups = async (req, res) => {
     const carpeta = path.join(__dirname, '../backups')
     if (!fs.existsSync(carpeta)) return res.json([])
 
-    const archivos = fs.readdirSync(carpeta)
+    const archivos = fs.readdirSync(carpa)
       .filter(f => f.endsWith('.sql'))
       .map(f => {
         const ruta = path.join(carpeta, f)
@@ -125,7 +91,7 @@ exports.listarBackups = async (req, res) => {
       .sort((a, b) => b.fecha.localeCompare(a.fecha))
 
     res.json(archivos)
-  } catch (err) {
+  } catch {
     res.status(500).json({ message: 'Error al listar backups' })
   }
 }
