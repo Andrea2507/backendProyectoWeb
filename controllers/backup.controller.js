@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const BackupLog = require('../models/backuplog.model')
 const { registrarLog } = require('../middlewares/log.middleware')
-const sequelize = require('../db/db.js')
+const sequelize = require('../db/db')
 
 async function generarArchivo(nombreArchivo) {
   const carpeta = path.join(__dirname, '../backups')
@@ -21,11 +21,12 @@ async function generarArchivo(nombreArchivo) {
     const [rows] = await sequelize.query(`SELECT * FROM \`${tabla}\``)
     for (const row of rows) {
       const columnas = Object.keys(row).map(c => `\`${c}\``).join(',')
-      const valores = Object.values(row).map(v =>
-        v === null ? 'NULL' : `'${v.toString().replace(/'/g, "''")}'`
-      ).join(',')
+      const valores = Object.values(row)
+        .map(v => v === null ? 'NULL' : `'${v.toString().replace(/'/g, "''")}'`)
+        .join(',')
       contenido += `INSERT INTO \`${tabla}\` (${columnas}) VALUES (${valores});\n`
     }
+
     contenido += '\n\n'
   }
 
@@ -69,24 +70,34 @@ exports.programarBackup = () => {
 
 exports.listarBackups = async (req, res) => {
   try {
-    const carpeta = path.join(__dirname, '../backups')
-    if (!fs.existsSync(carpeta)) return res.json([])
+    const registros = await BackupLog.findAll({ order: [['BackupLogId', 'DESC']] })
 
-    const archivos = fs.readdirSync(carpeta)
-      .filter(f => f.endsWith('.sql'))
-      .map(f => {
-        const ruta = path.join(carpeta, f)
-        const stats = fs.statSync(ruta)
-        return {
-          nombre: f,
-          fecha: stats.mtime.toISOString().split('T')[0],
-          tamanoMB: (stats.size / 1024 / 1024).toFixed(2)
-        }
-      })
-      .sort((a, b) => b.fecha.localeCompare(a.fecha))
+    const lista = registros.map(r => ({
+      id: r.BackupLogId,
+      fecha: r.fecha ? r.fecha.toISOString().split('T')[0] : '',
+      tamanoMB: r.tamanoMB,
+      nombre: `backup_${r.BackupLogId}.sql`
+    }))
 
-    res.json(archivos)
+    res.json(lista)
   } catch (err) {
     res.status(500).json({ message: 'Error al listar backups' })
+  }
+}
+
+exports.descargarBackup = async (req, res) => {
+  try {
+    const id = req.params.id
+
+    const registro = await BackupLog.findByPk(id)
+    if (!registro) return res.status(404).json({ message: 'Backup no encontrado' })
+
+    const ruta = registro.ubicacion
+
+    if (!fs.existsSync(ruta)) return res.status(404).json({ message: 'Archivo no encontrado' })
+
+    res.download(ruta, `backup_${id}.sql`)
+  } catch (err) {
+    res.status(500).json({ message: 'Error al descargar backup' })
   }
 }
