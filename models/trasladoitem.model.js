@@ -6,6 +6,6 @@ const TrasladoItem = db.define('TrasladoItem', {
   TrasladoId: { type: DataTypes.INTEGER, allowNull: false },
   ProductoId: { type: DataTypes.INTEGER, allowNull: false },
   cantidad: { type: DataTypes.INTEGER, allowNull: false }
-}, { tableName: 'TrasladoItem', timestamps: false })
+}, { tableName: 'trasladoitem', timestamps: false })
 
 module.exports = TrasladoItem

@@ -12,7 +12,7 @@ const Usuario = db.define('Usuario', {
   SucursalId: { type: DataTypes.INTEGER },
   activo: { type: DataTypes.BOOLEAN, defaultValue: true }
 }, {
-  tableName: 'Usuario',
+  tableName: 'usuario',
   timestamps: false,
   hooks: {
     beforeCreate: async (usuario) => {

@@ -8,6 +8,6 @@ const Traslado = db.define('Traslado', {
   UsuarioId: { type: DataTypes.INTEGER, allowNull: false },
   fecha: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   estado: { type: DataTypes.STRING(20), defaultValue: 'COMPLETADO' }
-}, { tableName: 'Traslado', timestamps: false })
+}, { tableName: 'traslado', timestamps: false })
 
 module.exports = Traslado

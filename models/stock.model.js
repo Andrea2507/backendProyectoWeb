@@ -7,7 +7,7 @@ const Stock = db.define('Stock', {
   ProductoId: { type: DataTypes.INTEGER, allowNull: false },
   existencias: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 }
 }, {
-  tableName: 'Stock',
+  tableName: 'stock',
   timestamps: false,
   indexes: [{ unique: true, fields: ['SucursalId', 'ProductoId'] }]
 })
