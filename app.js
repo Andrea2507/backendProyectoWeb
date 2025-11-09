@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express')
 const cors = require('cors')
 const sequelize = require('./db/db')
@@ -27,6 +29,11 @@ const clienteRoutes = require('./routes/cliente.routes')
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+
+app.get('/', (req, res) => {
+  res.send('Backend funcionando correctamente ')
+})
 
 // Rutas
 app.use('/backup', backupRoutes)
@@ -74,9 +81,19 @@ TrasladoItem.belongsTo(Traslado, { as: 'Traslado', foreignKey: 'TrasladoId' })
 Producto.hasMany(TrasladoItem, { as: 'ItemsProducto', foreignKey: 'ProductoId' })
 TrasladoItem.belongsTo(Producto, { foreignKey: 'ProductoId' })
 
+
+const PORT = process.env.PORT || 3001
+
+
+sequelize.authenticate()
+  .then(() => console.log('Conectado a Railway MySQL correctamente'))
+  .catch(err => console.error('Error de conexión a BD:', err))
+
 sequelize
   .sync()
   .then(() => {
-    app.listen(3001, () => console.log('http://localhost:3001'))
+    app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`))
   })
   .catch(err => console.error(err))
+
+module.exports = app
